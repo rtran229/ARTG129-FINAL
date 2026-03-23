@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://lyjik21wh312" path="res://addons/terrabrush/Assets/Textures/Ground103_1K-JPG/Ground103_1K-JPG_NormalGL.jpg" id="8_3v7ru"]
 [ext_resource type="Texture2D" uid="uid://msxadt0igp0w" path="res://addons/terrabrush/Assets/Textures/Ground103_1K-JPG/Ground103_1K-JPG_Roughness.jpg" id="9_tcnuu"]
 [ext_resource type="PackedScene" uid="uid://ycu8ny3hvjug" path="res://addons/terrabrush/Assets/Models/tree_pineDefaultA.glb" id="10_ealrb"]
+[ext_resource type="Texture2D" uid="uid://dnu6m1c0cq571" path="res://addons/terrabrush/Assets/Foliage/sprite_0072.png" id="10_s0gvp"]
 [ext_resource type="PackedScene" uid="uid://co3o611y0jnpq" path="res://addons/terrabrush/Assets/Models/tree_pineDefaultB.glb" id="11_jsnrv"]
 [ext_resource type="PackedScene" uid="uid://begdxgwfisnet" path="res://addons/terrabrush/Assets/Models/tree_pineGroundA.glb" id="12_lggff"]
 [ext_resource type="PackedScene" uid="uid://jtudsigeishu" path="res://addons/terrabrush/Assets/Models/tree_pineGroundB.glb" id="13_s0gvp"]
@@ -19,6 +20,8 @@
 [ext_resource type="PackedScene" uid="uid://c5a8lymnt7shp" path="res://addons/terrabrush/Assets/Models/tree_pineRoundB.glb" id="15_dhlwf"]
 [ext_resource type="PackedScene" uid="uid://ckcmq2463pl3r" path="res://addons/terrabrush/Assets/Models/tree_pineRoundC.glb" id="16_5t8nk"]
 [ext_resource type="Image" uid="uid://cixqgd7furwsh" path="res://Object_0_0_0.res" id="16_s0gvp"]
+[ext_resource type="Image" uid="uid://03maqntmsisy" path="res://Foliage_0_0_0.res" id="18_s0gvp"]
+[ext_resource type="Image" uid="uid://bfujp2pjlq6iu" path="res://Water_0_0.res" id="20_jsnrv"]
 
 [sub_resource type="TextureSetResource" id="TextureSetResource_4arys"]
 name = "Grass"
@@ -41,13 +44,31 @@ roughnessTexture = ExtResource("9_tcnuu")
 [sub_resource type="TextureSetsResource" id="TextureSetsResource_6iypd"]
 textureSets = Array[TextureSetResource]([SubResource("TextureSetResource_4arys"), SubResource("TextureSetResource_tuemg"), SubResource("TextureSetResource_i0g27")])
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vxd74"]
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+cull_mode = 2
+vertex_color_use_as_albedo = true
+albedo_texture = ExtResource("10_s0gvp")
+
+[sub_resource type="QuadMesh" id="QuadMesh_vxd74"]
+material = SubResource("StandardMaterial3D_vxd74")
+center_offset = Vector3(0, 0.5, 0)
+
+[sub_resource type="FoliageDefinitionResource" id="FoliageDefinitionResource_dhlwf"]
+mesh = SubResource("QuadMesh_vxd74")
+
+[sub_resource type="FoliageResource" id="FoliageResource_5t8nk"]
+definition = SubResource("FoliageDefinitionResource_dhlwf")
+
 [sub_resource type="ObjectDefinitionResource" id="ObjectDefinitionResource_ealrb"]
-objectFrequency = 10
+objectFrequency = 20
 randomRange = 3.0
 randomYRotation = true
 randomSize = true
-randomSizeFactorMin = 25.0
-randomSizeFactorMax = 25.0
+randomSizeFactorMin = 5.0
+randomSizeFactorMax = 5.0
 objectScenes = Array[PackedScene]([ExtResource("10_ealrb"), ExtResource("11_jsnrv"), ExtResource("12_lggff"), ExtResource("13_s0gvp"), ExtResource("14_vxd74"), ExtResource("15_dhlwf"), ExtResource("16_5t8nk")])
 
 [sub_resource type="ObjectResource" id="ObjectResource_jsnrv"]
@@ -56,22 +77,25 @@ definition = SubResource("ObjectDefinitionResource_ealrb")
 [sub_resource type="WaterResource" id="WaterResource_ealrb"]
 waterColor = Color(0.34548062, 0.60566646, 1, 1)
 
-[sub_resource type="ZoneResource" id="ZoneResource_noarx"]
+[sub_resource type="ZoneResource" id="ZoneResource_lggff"]
 heightMapImage = ExtResource("1_a202f")
 splatmapsImage = Array[Image]([ExtResource("5_jsk3o")])
+foliagesImage = Array[Image]([ExtResource("18_s0gvp")])
 objectsImage = Array[Image]([ExtResource("16_s0gvp")])
+waterImage = ExtResource("20_jsnrv")
 
-[sub_resource type="ZonesResource" id="ZonesResource_a0tk4"]
-zones = Array[ZoneResource]([SubResource("ZoneResource_noarx")])
+[sub_resource type="ZonesResource" id="ZonesResource_s0gvp"]
+zones = Array[ZoneResource]([SubResource("ZoneResource_lggff")])
 
 [node name="Node3D" type="Node3D" unique_id=2076869356]
 
 [node name="TerraBrush" type="TerraBrush" parent="." unique_id=543126521]
 dataPath = "res://"
-zonesSize = 300
+zonesSize = 400
 textureSets = SubResource("TextureSetsResource_6iypd")
+foliages = Array[FoliageResource]([SubResource("FoliageResource_5t8nk")])
 defaultObjectFrequency = 3
 objects = Array[ObjectResource]([SubResource("ObjectResource_jsnrv")])
 waterDefinition = SubResource("WaterResource_ealrb")
-terrainZones = SubResource("ZonesResource_a0tk4")
+terrainZones = SubResource("ZonesResource_s0gvp")
 metadata/_edit_lock_ = true
