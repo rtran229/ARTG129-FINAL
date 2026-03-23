@@ -1,0 +1,77 @@
+[gd_scene format=3 uid="uid://jffgq7qrhx38"]
+
+[ext_resource type="Image" uid="uid://oj16rn4n8nbf" path="res://Heightmap_0_0.res" id="1_a202f"]
+[ext_resource type="Texture2D" uid="uid://bt4dsouwookbh" path="res://addons/terrabrush/Assets/Textures/Grass001_1K-JPG/Grass001_1K-JPG_Color.jpg" id="1_jka67"]
+[ext_resource type="Texture2D" uid="uid://b1rk08qwummn4" path="res://addons/terrabrush/Assets/Textures/Grass001_1K-JPG/Grass001_1K-JPG_NormalGL.jpg" id="2_i5arm"]
+[ext_resource type="Texture2D" uid="uid://bxexttmugo3p0" path="res://addons/terrabrush/Assets/Textures/Grass001_1K-JPG/Grass001_1K-JPG_Roughness.jpg" id="3_wc5p8"]
+[ext_resource type="Texture2D" uid="uid://7ynnq6ai4y0b" path="res://addons/terrabrush/Assets/Textures/Ground070_1K-JPG/Ground070_1K-JPG_Color.jpg" id="4_tereu"]
+[ext_resource type="Texture2D" uid="uid://cxs5e3xwpyqef" path="res://addons/terrabrush/Assets/Textures/Ground070_1K-JPG/Ground070_1K-JPG_NormalGL.jpg" id="5_cdqbm"]
+[ext_resource type="Image" uid="uid://4k33h3huxkfp" path="res://Splatmap_0_0_0.res" id="5_jsk3o"]
+[ext_resource type="Texture2D" uid="uid://b7exjtrqovsfh" path="res://addons/terrabrush/Assets/Textures/Ground070_1K-JPG/Ground070_1K-JPG_Roughness.jpg" id="6_imku0"]
+[ext_resource type="Texture2D" uid="uid://cxur014x8h6tm" path="res://addons/terrabrush/Assets/Textures/Ground103_1K-JPG/Ground103_1K-JPG_Color.jpg" id="7_wlxy5"]
+[ext_resource type="Texture2D" uid="uid://lyjik21wh312" path="res://addons/terrabrush/Assets/Textures/Ground103_1K-JPG/Ground103_1K-JPG_NormalGL.jpg" id="8_3v7ru"]
+[ext_resource type="Texture2D" uid="uid://msxadt0igp0w" path="res://addons/terrabrush/Assets/Textures/Ground103_1K-JPG/Ground103_1K-JPG_Roughness.jpg" id="9_tcnuu"]
+[ext_resource type="PackedScene" uid="uid://ycu8ny3hvjug" path="res://addons/terrabrush/Assets/Models/tree_pineDefaultA.glb" id="10_ealrb"]
+[ext_resource type="PackedScene" uid="uid://co3o611y0jnpq" path="res://addons/terrabrush/Assets/Models/tree_pineDefaultB.glb" id="11_jsnrv"]
+[ext_resource type="PackedScene" uid="uid://begdxgwfisnet" path="res://addons/terrabrush/Assets/Models/tree_pineGroundA.glb" id="12_lggff"]
+[ext_resource type="PackedScene" uid="uid://jtudsigeishu" path="res://addons/terrabrush/Assets/Models/tree_pineGroundB.glb" id="13_s0gvp"]
+[ext_resource type="PackedScene" uid="uid://dewe3f3gd1pg0" path="res://addons/terrabrush/Assets/Models/tree_pineRoundA.glb" id="14_vxd74"]
+[ext_resource type="PackedScene" uid="uid://c5a8lymnt7shp" path="res://addons/terrabrush/Assets/Models/tree_pineRoundB.glb" id="15_dhlwf"]
+[ext_resource type="PackedScene" uid="uid://ckcmq2463pl3r" path="res://addons/terrabrush/Assets/Models/tree_pineRoundC.glb" id="16_5t8nk"]
+[ext_resource type="Image" uid="uid://cixqgd7furwsh" path="res://Object_0_0_0.res" id="16_s0gvp"]
+
+[sub_resource type="TextureSetResource" id="TextureSetResource_4arys"]
+name = "Grass"
+albedoTexture = ExtResource("1_jka67")
+normalTexture = ExtResource("2_i5arm")
+roughnessTexture = ExtResource("3_wc5p8")
+
+[sub_resource type="TextureSetResource" id="TextureSetResource_tuemg"]
+name = "Ground"
+albedoTexture = ExtResource("4_tereu")
+normalTexture = ExtResource("5_cdqbm")
+roughnessTexture = ExtResource("6_imku0")
+
+[sub_resource type="TextureSetResource" id="TextureSetResource_i0g27"]
+name = " Path"
+albedoTexture = ExtResource("7_wlxy5")
+normalTexture = ExtResource("8_3v7ru")
+roughnessTexture = ExtResource("9_tcnuu")
+
+[sub_resource type="TextureSetsResource" id="TextureSetsResource_6iypd"]
+textureSets = Array[TextureSetResource]([SubResource("TextureSetResource_4arys"), SubResource("TextureSetResource_tuemg"), SubResource("TextureSetResource_i0g27")])
+
+[sub_resource type="ObjectDefinitionResource" id="ObjectDefinitionResource_ealrb"]
+objectFrequency = 10
+randomRange = 3.0
+randomYRotation = true
+randomSize = true
+randomSizeFactorMin = 25.0
+randomSizeFactorMax = 25.0
+objectScenes = Array[PackedScene]([ExtResource("10_ealrb"), ExtResource("11_jsnrv"), ExtResource("12_lggff"), ExtResource("13_s0gvp"), ExtResource("14_vxd74"), ExtResource("15_dhlwf"), ExtResource("16_5t8nk")])
+
+[sub_resource type="ObjectResource" id="ObjectResource_jsnrv"]
+definition = SubResource("ObjectDefinitionResource_ealrb")
+
+[sub_resource type="WaterResource" id="WaterResource_ealrb"]
+waterColor = Color(0.34548062, 0.60566646, 1, 1)
+
+[sub_resource type="ZoneResource" id="ZoneResource_noarx"]
+heightMapImage = ExtResource("1_a202f")
+splatmapsImage = Array[Image]([ExtResource("5_jsk3o")])
+objectsImage = Array[Image]([ExtResource("16_s0gvp")])
+
+[sub_resource type="ZonesResource" id="ZonesResource_a0tk4"]
+zones = Array[ZoneResource]([SubResource("ZoneResource_noarx")])
+
+[node name="Node3D" type="Node3D" unique_id=2076869356]
+
+[node name="TerraBrush" type="TerraBrush" parent="." unique_id=543126521]
+dataPath = "res://"
+zonesSize = 300
+textureSets = SubResource("TextureSetsResource_6iypd")
+defaultObjectFrequency = 3
+objects = Array[ObjectResource]([SubResource("ObjectResource_jsnrv")])
+waterDefinition = SubResource("WaterResource_ealrb")
+terrainZones = SubResource("ZonesResource_a0tk4")
+metadata/_edit_lock_ = true
