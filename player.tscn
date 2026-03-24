@@ -1,0 +1,62 @@
+[gd_scene format=3 uid="uid://t6irxsj7r3y4"]
+
+[ext_resource type="PackedScene" uid="uid://bwsarm8ih05fs" path="res://character-female-b.glb" id="1_4flbx"]
+
+[sub_resource type="GDScript" id="GDScript_4flbx"]
+script/source = "extends CharacterBody3D
+
+const SPEED = 30.0
+const JUMP_VELOCITY = 10
+
+# Automatically fetch gravity from project settings
+var gravity = ProjectSettings.get_setting(\"physics/3d/default_gravity\")
+
+func _physics_process(delta):
+	# Add gravity
+	if not is_on_floor():
+		velocity.y -= gravity * delta
+
+	# Handle Jump using custom \"jump\" action
+	if Input.is_action_just_pressed(\"jump\") and is_on_floor():
+		velocity.y = JUMP_VELOCITY
+
+	# Get movement direction using custom actions
+	# Order: (negative x, positive x, negative y, positive y)
+	var input_dir = Input.get_vector(\"move_left\", \"move_right\", \"move_forward\", \"move_back\")
+	
+	# Rotate the direction based on player's current orientation
+	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+	
+	if direction:
+		velocity.x = direction.x * SPEED
+		velocity.z = direction.z * SPEED
+	else:
+		# Smoothly stop when no input is detected
+		velocity.x = move_toward(velocity.x, 0, SPEED)
+		velocity.z = move_toward(velocity.z, 0, SPEED)
+
+	# move_and_slide uses the 'velocity' variable automatically in Godot 4
+	move_and_slide()
+"
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_onrkg"]
+
+[node name="Player" type="CharacterBody3D" unique_id=1327118052]
+script = SubResource("GDScript_4flbx")
+
+[node name="Pivot" type="Node3D" parent="." unique_id=1824755070]
+
+[node name="character-female-b2" parent="Pivot" unique_id=920163041 instance=ExtResource("1_4flbx")]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1106051878]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 7.093911, 0)
+shape = SubResource("CapsuleShape3D_onrkg")
+
+[node name="CameraPivot" type="Node3D" parent="." unique_id=597510904]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9.807257, 0)
+
+[node name="Camera3D" type="Camera3D" parent="CameraPivot" unique_id=1677632358]
+unique_name_in_owner = true
+transform = Transform3D(0.9998766, 0.015707318, 0, -0.014930053, 0.95039845, 0.31067643, 0.0048798933, -0.3106381, 0.95051575, 0, 19.092024, 25.937338)
