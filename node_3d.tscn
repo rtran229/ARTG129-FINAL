@@ -23,6 +23,7 @@
 [ext_resource type="Image" uid="uid://03maqntmsisy" path="res://Foliage_0_0_0.res" id="18_s0gvp"]
 [ext_resource type="Image" uid="uid://bfujp2pjlq6iu" path="res://Water_0_0.res" id="20_jsnrv"]
 [ext_resource type="PackedScene" uid="uid://t6irxsj7r3y4" path="res://player.tscn" id="23_vxd74"]
+[ext_resource type="PackedScene" uid="uid://brtvtbju6j0f" path="res://animal-cat.glb" id="24_dhlwf"]
 
 [sub_resource type="TextureSetResource" id="TextureSetResource_4arys"]
 name = "Grass"
@@ -88,6 +89,50 @@ waterImage = ExtResource("20_jsnrv")
 [sub_resource type="ZonesResource" id="ZonesResource_s0gvp"]
 zones = Array[ZoneResource]([SubResource("ZoneResource_lggff")])
 
+[sub_resource type="GDScript" id="GDScript_dhlwf"]
+resource_name = "Callable"
+script/source = "extends Area3D
+
+@export var timeline_name: String = \"timeline\"
+
+func _ready() -> void:
+
+	body_entered.connect(_on_body_entered)
+
+func _on_body_entered(body: Node3D) -> void:
+
+	if body.name == \"Player\" or body.is_in_group(\"player\"):
+		print(\"Player detected! Starting timeline: \", timeline_name)
+		
+		Dialogic.start(timeline_name)
+	else:
+		print(\"Something else entered the area: \", body.name)
+"
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_5t8nk"]
+
+[sub_resource type="GDScript" id="GDScript_5t8nk"]
+resource_name = "Kitty"
+script/source = "extends Area3D
+
+@export var timeline_name: String = \"cattimeline\"
+
+func _ready() -> void:
+
+	body_entered.connect(_on_body_entered)
+
+func _on_body_entered(body: Node3D) -> void:
+
+	if body.name == \"Player\" or body.is_in_group(\"player\"):
+		print(\"Player detected! Starting timeline: \", timeline_name)
+		
+		Dialogic.start(timeline_name)
+	else:
+		print(\"Something else entered the area: \", body.name)
+"
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_j3e5s"]
+
 [node name="Node3D" type="Node3D" unique_id=2076869356]
 
 [node name="TerraBrush" type="TerraBrush" parent="." unique_id=543126521]
@@ -103,3 +148,22 @@ metadata/_edit_lock_ = false
 
 [node name="Player" parent="." unique_id=1327118052 instance=ExtResource("23_vxd74")]
 transform = Transform3D(-0.9536592, 0, 0.30088893, 0, 1, 0, -0.30088893, 0, -0.9536592, 78.3879, 15.589088, -117.89166)
+
+[node name="animal-cat2" parent="." unique_id=1734014355 instance=ExtResource("24_dhlwf")]
+transform = Transform3D(-0.09714868, -1.1918011e-09, 0.99527, 0.054065883, 0.9985236, 0.0052774027, -0.99380046, 0.05432278, -0.09700522, -85.961945, 16.260149, 85.03381)
+
+[node name="Area3D" type="Area3D" parent="." unique_id=1446334432]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 65.860695, -13.205368, -144.79549)
+script = SubResource("GDScript_dhlwf")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=577402868]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 12.789429, 28.368204, 26.861687)
+shape = SubResource("BoxShape3D_5t8nk")
+
+[node name="Area3D2" type="Area3D" parent="." unique_id=83842467]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -86.4261, 20.109339, 84.66478)
+script = SubResource("GDScript_5t8nk")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D2" unique_id=120954509]
+transform = Transform3D(25, 0, 0, 0, 25, 0, 0, 0, 25, 0, 0, 0)
+shape = SubResource("BoxShape3D_j3e5s")
